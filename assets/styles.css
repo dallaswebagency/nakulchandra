@@ -122,22 +122,25 @@ ul{margin:0;padding:0;list-style:none}
 .underline-link{font-weight:600;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:3px;transition:color .2s}
 .underline-link:hover{color:var(--accent-2)}
 
-/* Carousel */
-.carousel{background:var(--ink);border-radius:24px;padding:clamp(30px,5vw,64px);color:#fff;position:relative;overflow:hidden}
-.carousel::before{content:"";position:absolute;width:420px;height:420px;right:-120px;top:-160px;background:radial-gradient(circle,rgba(51,189,240,.22),transparent 70%)}
-.carousel__viewport{position:relative;min-height:230px}
-.slide{margin:0;display:none}
-.slide[data-active]{display:block;animation:slideIn .55s cubic-bezier(.2,.6,.2,1)}
-.slide__mark{display:block;font-size:90px;line-height:.7;height:44px;color:var(--accent);font-family:Georgia,serif}
-.slide__quote{margin:10px 0 28px;font-size:clamp(20px,2.4vw,28px);line-height:1.45;font-weight:500;max-width:880px;color:#fff}
-.slide__by{font-size:16px;color:#9db4bd}
-.slide__by strong{color:#fff;font-weight:700}
-.carousel__controls{display:flex;align-items:center;gap:18px;margin-top:32px;position:relative}
-.carousel__arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:20px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
-.carousel__arrow:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
-.carousel__dots{display:flex;gap:9px;flex:1;justify-content:center}
-.carousel__dot{width:10px;height:10px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.28);cursor:pointer;transition:width .3s,background .3s}
-.carousel__dot[data-active]{width:30px;border-radius:6px;background:var(--accent)}
+/* Testimonials marquee */
+.tmarq-wrap{display:grid;gap:22px;margin:0 calc(var(--gut) * -1);padding:6px 0}
+.tmarq{overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.tmarq::-webkit-scrollbar{display:none}
+.tmarq__track{display:flex;gap:22px;width:max-content;padding:6px 11px}
+.js .tmarq{overflow:hidden}
+.js .tmarq--a .tmarq__track{animation:marqLeft 48s linear infinite}
+.js .tmarq--b .tmarq__track{animation:marqRight 54s linear infinite}
+.js .tmarq:hover .tmarq__track,.js .tmarq:focus-within .tmarq__track{animation-play-state:paused}
+@keyframes marqLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes marqRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.tcard{flex:none;width:min(400px,82vw);margin:0;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:16px;transition:border-color .25s,box-shadow .25s,transform .25s}
+.tcard:hover{border-color:var(--accent);box-shadow:0 22px 44px -26px rgba(13,33,41,.4);transform:translateY(-4px)}
+.tcard__stars{color:#f5b400;letter-spacing:3px;font-size:15px}
+.tcard__quote{margin:0;font-size:16.5px;line-height:1.6;color:var(--text);flex:1}
+.tcard__by{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid var(--line)}
+.tcard__avatar{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--accent);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.tcard__by strong{display:block;color:var(--ink);line-height:1.25}
+.tcard__by span:not(.tcard__avatar){font-size:13.5px;color:var(--muted)}
 
 /* Video */
 .vt{background:linear-gradient(180deg,#fff,#eaf6fb);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -204,6 +207,7 @@ ul{margin:0;padding:0;list-style:none}
 .js [data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.6,.2,1),transform .7s cubic-bezier(.2,.6,.2,1)}
 .js [data-reveal].is-in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
+  .js .tmarq{overflow-x:auto}
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .js [data-reveal]{opacity:1;transform:none}
   [data-headfx="highlight"]{background-size:100% 100%}

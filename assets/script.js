@@ -53,6 +53,17 @@
     counters.forEach(function (el) { el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || ''); });
   }
 
+  /* Testimonial marquee: duplicate cards for a seamless loop */
+  [].forEach.call(document.querySelectorAll('.tmarq__track'), function (track) {
+    if (reduce) return;
+    var kids = [].slice.call(track.children);
+    kids.forEach(function (k) {
+      var d = k.cloneNode(true);
+      d.setAttribute('aria-hidden', 'true');
+      track.appendChild(d);
+    });
+  });
+
   /* Carousel */
   [].forEach.call(document.querySelectorAll('[data-carousel]'), function (c) {
     var slides = [].slice.call(c.querySelectorAll('[data-slide]'));
