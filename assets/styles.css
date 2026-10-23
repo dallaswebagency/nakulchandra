@@ -155,6 +155,15 @@ ul{margin:0;padding:0;list-style:none}
 .vt__person div span{font-size:14px;color:var(--muted)}
 .video{position:relative;max-width:900px}
 .video__plate{position:absolute;inset:18px -18px -18px 18px;border-radius:26px;background:linear-gradient(135deg,var(--accent),#1b6f8f);opacity:.9}
+.vlist{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+.vlist__item{position:relative;display:block;padding:0;border:2px solid transparent;border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:16/10;background:var(--ink);transition:transform .25s,border-color .25s,box-shadow .25s}
+.vlist__item img{width:100%;height:100%;object-fit:cover;opacity:.78;transition:opacity .25s,transform .4s}
+.vlist__item:hover{transform:translateY(-3px);box-shadow:0 16px 30px -16px rgba(13,33,41,.6)}
+.vlist__item:hover img{opacity:1;transform:scale(1.05)}
+.vlist__item.is-active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(51,189,240,.3)}
+.vlist__item.is-active img{opacity:1}
+.vlist__play{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--accent);color:var(--ink);display:flex;align-items:center;justify-content:center;padding-left:2px}
+.vlist__num{position:absolute;left:8px;bottom:6px;font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 .video__label{position:absolute;left:18px;bottom:18px;z-index:2;padding:9px 16px;border-radius:999px;background:rgba(13,33,41,.78);backdrop-filter:blur(8px);color:#fff;font-size:14px;font-weight:600}
 .video__frame{position:relative;z-index:1;aspect-ratio:16/9;border-radius:22px;overflow:hidden;background:#000;box-shadow:0 30px 60px -28px rgba(13,33,41,.6)}
 .video__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
@@ -235,6 +244,8 @@ ul{margin:0;padding:0;list-style:none}
   .footer__brand{grid-column:1/-1}
 }
 @media (max-width:640px){
+  .vlist{gap:8px;margin-top:22px}
+  .vlist__play{width:26px;height:26px;margin:-13px 0 0 -13px}
   body{font-size:16px}
   .nav__links{display:none}
   .nav__cta{margin-left:auto}

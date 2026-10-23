@@ -110,18 +110,40 @@
     start();
   });
 
-  /* Click-to-play video (loads YouTube only on click) */
+  /* Click-to-play video playlist (YouTube loads only on click) */
   [].forEach.call(document.querySelectorAll('[data-video]'), function (frame) {
-    var id = frame.getAttribute('data-video-id');
-    var btn = frame.querySelector('[data-video-play]');
-    if (!id || !btn) return;
-    btn.addEventListener('click', function () {
+    var root = frame.closest('.vt') || document;
+    var items = [].slice.call(root.querySelectorAll('.vlist__item'));
+    var nameEl = root.querySelector('[data-vt-name]');
+    var roleEl = root.querySelector('[data-vt-role]');
+    var avEl = root.querySelector('[data-vt-avatar]');
+    var ledeEl = root.querySelector('[data-vt-lede]');
+    var ptsEl = root.querySelector('[data-vt-points]');
+
+    function play(id) {
       var f = document.createElement('iframe');
       f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
       f.title = 'Video testimonial';
       f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
       f.allowFullscreen = true;
-      frame.replaceChild(f, btn);
+      while (frame.firstChild) frame.removeChild(frame.firstChild);
+      frame.appendChild(f);
+      frame.setAttribute('data-video-id', id);
+    }
+    function select(item) {
+      items.forEach(function (it) { it.classList.toggle('is-active', it === item); });
+      var kyle = item.getAttribute('data-kyle') === '1';
+      if (nameEl) nameEl.textContent = item.getAttribute('data-name');
+      if (roleEl) roleEl.textContent = item.getAttribute('data-role');
+      if (avEl) avEl.textContent = item.getAttribute('data-initials');
+      if (ledeEl) ledeEl.textContent = ledeEl.getAttribute(kyle ? 'data-kyle-text' : 'data-other-text');
+      if (ptsEl) ptsEl.hidden = !kyle;
+    }
+
+    var btn = frame.querySelector('[data-video-play]');
+    if (btn) btn.addEventListener('click', function () { play(frame.getAttribute('data-video-id')); });
+    items.forEach(function (it) {
+      it.addEventListener('click', function () { select(it); play(it.getAttribute('data-vid')); });
     });
   });
 })();
