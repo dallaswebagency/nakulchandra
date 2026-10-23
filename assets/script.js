@@ -110,18 +110,107 @@
     start();
   });
 
-  /* Click-to-play videos (YouTube loads only on click) */
+  /* Video lightbox: click a card, it grows to a big player; click outside, X or Esc to shrink and close */
+  var modal = null, box = null, holder = null, titleEl = null, lastFocus = null, fromEl = null, closing = false;
+
+  function buildModal() {
+    modal = document.createElement('div');
+    modal.className = 'vmodal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Video testimonial');
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="vmodal__box">' +
+        '<button class="vmodal__close" type="button" aria-label="Close video">&times;</button>' +
+        '<div class="vmodal__video"></div>' +
+        '<p class="vmodal__title"></p>' +
+      '</div>';
+    document.body.appendChild(modal);
+    box = modal.querySelector('.vmodal__box');
+    holder = modal.querySelector('.vmodal__video');
+    titleEl = modal.querySelector('.vmodal__title');
+    modal.addEventListener('click', function (e) { if (!box.contains(e.target) || e.target.closest('.vmodal__close')) closeModal(); });
+  }
+
+  function flipFrom(el) {
+    var r = el.getBoundingClientRect();
+    var b = holder.getBoundingClientRect();
+    var s = Math.max(r.width / b.width, 0.1);
+    var dx = (r.left + r.width / 2) - (b.left + b.width / 2);
+    var dy = (r.top + r.height / 2) - (b.top + b.height / 2);
+    return 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')';
+  }
+
+  function openModal(id, name, origin) {
+    if (!modal) buildModal();
+    closing = false;
+    lastFocus = document.activeElement;
+    fromEl = origin;
+    titleEl.textContent = name || '';
+    holder.innerHTML = '';
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+    f.title = 'Video testimonial' + (name ? ' from ' + name : '');
+    f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    holder.appendChild(f);
+    modal.hidden = false;
+    document.documentElement.classList.add('vmodal-open');
+    modal.classList.remove('is-open');
+    if (!reduce && origin) {
+      holder.style.transition = 'none';
+      holder.style.transform = flipFrom(origin);
+      holder.style.opacity = '0.4';
+      void holder.offsetWidth;
+      holder.style.transition = '';
+    }
+    requestAnimationFrame(function () {
+      modal.classList.add('is-open');
+      holder.style.transform = '';
+      holder.style.opacity = '';
+    });
+    modal.querySelector('.vmodal__close').focus();
+  }
+
+  function finishClose() {
+    modal.hidden = true;
+    modal.classList.remove('is-open');
+    holder.innerHTML = '';
+    holder.style.transform = '';
+    holder.style.opacity = '';
+    document.documentElement.classList.remove('vmodal-open');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    closing = false;
+  }
+
+  function closeModal() {
+    if (!modal || modal.hidden || closing) return;
+    closing = true;
+    modal.classList.remove('is-open');
+    var iframe = holder.querySelector('iframe');
+    if (iframe) iframe.src = 'about:blank';
+    if (!reduce && fromEl && document.body.contains(fromEl)) {
+      holder.style.transform = flipFrom(fromEl);
+      holder.style.opacity = '0.4';
+      setTimeout(finishClose, 380);
+    } else {
+      finishClose();
+    }
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
   [].forEach.call(document.querySelectorAll('[data-video]'), function (frame) {
     var btn = frame.querySelector('[data-video-play]');
     var id = frame.getAttribute('data-video-id');
     if (!btn || !id) return;
+    var card = frame.closest('.vcard');
+    var nameEl = card && card.querySelector('.vcard__by strong');
     btn.addEventListener('click', function () {
-      var f = document.createElement('iframe');
-      f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
-      f.title = 'Video testimonial';
-      f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
-      f.allowFullscreen = true;
-      frame.replaceChild(f, btn);
+      openModal(id, nameEl ? nameEl.textContent : '', frame);
     });
   });
 })();
