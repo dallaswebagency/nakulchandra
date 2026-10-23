@@ -32,7 +32,7 @@ ul{margin:0;padding:0;list-style:none}
 /* Nav */
 .nav{position:sticky;top:0;z-index:50;background:rgba(13,33,41,.92);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
 .nav__bar{max-width:var(--max);margin:0 auto;padding:10px var(--gut);display:flex;align-items:center;gap:24px;min-height:68px}
-.nav__brand{display:block;width:78px;flex:none}
+.nav__brand{display:block;width:84px;flex:none}
 .nav__brand img{width:100%;height:auto}
 .nav__links{display:flex;gap:6px;margin-left:auto}
 .navlink{color:#c9d8de;text-decoration:none;font-weight:500;font-size:15px;padding:8px 14px;border-radius:8px;transition:color .2s,background .2s}
@@ -150,7 +150,7 @@ ul{margin:0;padding:0;list-style:none}
 .social{display:inline-flex;align-items:center;gap:10px}
 .footer__bar{max-width:calc(var(--max) - 2*var(--gut));margin:44px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14px}
 .footer__copy{display:flex;align-items:center;gap:10px}
-.footer__copy img{width:34px;height:auto}
+.footer__copy img{width:46px;height:auto}
 
 /* Motion */
 @keyframes ncFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
