@@ -191,8 +191,13 @@ ul{margin:0;padding:0;list-style:none}
 @media (max-width:980px){
   .cards{grid-template-columns:repeat(2,1fr)}
   .hero{grid-template-columns:1fr}
-  .hero__photo{width:min(78%,340px);justify-self:center;order:-1;margin:8px 0 12px}
-  .chip--a{left:-18px}.chip--b{right:-18px}.chip--c{left:-6px}
+  .hero__photo{width:min(86%,360px);justify-self:center;margin:12px 0 4px;display:flex;flex-direction:column;gap:16px}
+  .hero__ring{display:none}
+  .hero__photo-frame{box-shadow:0 0 0 2px rgba(51,189,240,.5),0 30px 60px -24px rgba(0,0,0,.7)}
+  .chip{position:static;animation:none;backdrop-filter:none;padding:8px 11px 8px 10px;font-size:12px;gap:8px}
+  .chip strong{font-size:10.5px}
+  .hero__photo{flex-flow:row wrap;justify-content:center;gap:10px}
+  .hero__photo-frame{flex:0 0 100%;margin-bottom:6px}
   .row,.row--flip{grid-template-columns:1fr}
   .row--flip .row__logo{order:0}
   .row__logo{min-height:130px}
@@ -200,11 +205,6 @@ ul{margin:0;padding:0;list-style:none}
   .footer__brand{grid-column:1/-1}
 }
 @media (max-width:640px){
-  .chip{padding:8px 11px 8px 10px;font-size:12px;gap:8px}
-  .chip strong{font-size:10.5px}
-  .chip--a{top:auto;bottom:24%;left:-12px}
-  .chip--b{top:auto;bottom:7%;right:-12px}
-  .chip--c{display:none}
   body{font-size:16px}
   .nav__links{display:none}
   .nav__cta{margin-left:auto}
