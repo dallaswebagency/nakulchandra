@@ -141,16 +141,30 @@ ul{margin:0;padding:0;list-style:none}
 .contact__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
 
 /* Footer */
-.footer{background:#08171d;color:#9db4bd;padding:56px var(--gut) 28px}
-.footer__grid{max-width:calc(var(--max) - 2*var(--gut));margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.footer{position:relative;background:#08171d;color:#9db4bd;padding:0 var(--gut) 28px;overflow:hidden}
+.footer::before{content:"";position:absolute;width:520px;height:520px;right:-160px;bottom:-220px;background:radial-gradient(circle,rgba(51,189,240,.14),transparent 70%);pointer-events:none}
+.footer__stats{position:relative;max-width:calc(var(--max) - 2*var(--gut));margin:0 auto;padding:44px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer__stats div{display:flex;flex-direction:column;gap:4px}
+.footer__stats strong{font-size:clamp(30px,4vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--accent)}
+.footer__stats span{font-size:14px;color:#9db4bd}
+.footer__grid{position:relative;max-width:calc(var(--max) - 2*var(--gut));margin:48px auto 0;display:grid;grid-template-columns:1.5fr 1fr 1.3fr 1fr;gap:40px}
 .footer__col{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
-.footer__head{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin-bottom:8px}
-.footer__col a{text-decoration:none;font-size:15px;transition:color .2s}
-.footer__col a:hover{color:var(--accent)}
-.social{display:inline-flex;align-items:center;gap:10px}
-.footer__bar{max-width:calc(var(--max) - 2*var(--gut));margin:44px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14px}
-.footer__copy{display:flex;align-items:center;gap:10px}
-.footer__copy img{width:46px;height:auto}
+.footer__head{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin-bottom:6px}
+.footer__head--gap{margin-top:22px}
+.footer__col a{text-decoration:none;font-size:15px;transition:color .2s,transform .2s}
+.footer__col a:not(.social):not(.footer__logo):hover{color:var(--accent);transform:translateX(3px)}
+.footer__logo{display:block;width:84px;margin-bottom:8px}
+.footer__logo img{width:100%;height:auto}
+.footer__about{font-size:15px;line-height:1.65;max-width:340px}
+.footer__mail{color:#fff;font-weight:600;border-bottom:1px solid var(--accent);padding-bottom:2px}
+.footer__place{font-size:14px;color:#7c939c}
+.footer__socials{display:flex;gap:10px}
+.social{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;transition:background .2s,border-color .2s,transform .2s}
+.footer__col a.social:hover{background:rgba(51,189,240,.18);border-color:var(--accent);transform:translateY(-3px)}
+.footer__bar{position:relative;max-width:calc(var(--max) - 2*var(--gut));margin:48px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;font-size:14px}
+.footer__meta{color:#7c939c}
+.footer__top{text-decoration:none;color:#fff;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.18);transition:background .2s,color .2s,border-color .2s}
+.footer__top:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
 
 /* Motion */
 @keyframes ncFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
@@ -172,6 +186,7 @@ ul{margin:0;padding:0;list-style:none}
   .row--flip .row__logo{order:0}
   .row__logo{min-height:130px}
   .footer__grid{grid-template-columns:1fr 1fr}
+  .footer__brand{grid-column:1/-1}
 }
 @media (max-width:640px){
   body{font-size:16px}
@@ -182,6 +197,8 @@ ul{margin:0;padding:0;list-style:none}
   .stat:nth-child(2){border-right:0}
   .stat:nth-child(-n+2){border-bottom:1px solid rgba(13,33,41,.15)}
   .footer__grid{grid-template-columns:1fr}
+  .footer__stats{grid-template-columns:1fr 1fr;padding:32px 0}
+  .footer__bar{flex-direction:column;align-items:flex-start}
   .btn--pill{width:100%}
   .hero__actions .btn{flex:1 1 auto}
 }
